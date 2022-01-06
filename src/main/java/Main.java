@@ -22,8 +22,38 @@ public class Main {
                     .orElseThrow(IllegalStateException::new));
         } finally {
             empty.ifPresent(System.out::println);
-
             empty.ifPresentOrElse(System.out::println, () -> System.out.println("empty"));
+
+            Person jitesh = new Person("Jitesh", "jiteshshaw93@gmail.com");
+            System.out.println("Email: " + jitesh.getEmail().map(String::toUpperCase).orElse("email not provided"));
+            Person pawan = new Person("Pawan", null);
+            System.out.println("Email: " + pawan.getEmail().map(String::toUpperCase).orElse("email not provided"));
+
+            // unwrapping Optional
+            if(pawan.getEmail().isPresent()) {
+                String email = pawan.getEmail().get();
+                System.out.println("Email: " + email.toUpperCase());
+            } else {
+                System.out.println("Email: email not provided");
+            }
         }
+    }
+}
+
+class Person {
+    private final String name;
+    private final String email;
+
+    public Person(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Optional<String> getEmail() {
+        return Optional.ofNullable(email);
     }
 }
